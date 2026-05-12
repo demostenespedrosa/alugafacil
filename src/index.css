@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@layer components {
+  .leaflet-popup-content-wrapper {
+    padding: 0 !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+  }
+  .leaflet-popup-content {
+    margin: 0 !important;
+    width: 200px !important;
+  }
+  .custom-pin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .custom-pin:hover > div {
+    transform: scale(1.05);
+  }
+}

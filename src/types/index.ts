@@ -9,7 +9,21 @@ export interface Property {
   bedrooms: number;
   type: "short-term" | "long-term";
   imageUrl: string;
+  images?: string[];
+  videoUrl?: string;
   amenities: string[];
+  lat: number;
+  lng: number;
+  area?: number;
+  bathrooms?: number;
+  parkingSpots?: number;
+  createdAt?: string;
+  host?: {
+    name: string;
+    phone: string;
+    initials: string;
+    memberSince: string;
+  };
 }
 
 export interface Booking {
