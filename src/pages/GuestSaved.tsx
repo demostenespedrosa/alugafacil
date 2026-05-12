@@ -12,6 +12,8 @@ export function GuestSaved() {
       type: "short-term",
       imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
       rating: 4.9,
+      area: 250,
+      createdAt: "2023-10-01T10:00:00Z"
     },
     {
       id: "p2",
@@ -21,6 +23,8 @@ export function GuestSaved() {
       type: "short-term",
       imageUrl: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80",
       rating: 4.7,
+      area: 120,
+      createdAt: "2023-10-15T14:30:00Z"
     },
     {
       id: "p3",
@@ -30,43 +34,84 @@ export function GuestSaved() {
       type: "long-term",
       imageUrl: "https://images.unsplash.com/photo-1502672260266-1c1c24240f57?auto=format&fit=crop&w=800&q=80",
       rating: 4.5,
+      area: 45,
+      createdAt: "2023-11-20T08:15:00Z"
     }
   ];
 
   const [filterType, setFilterType] = useState<string>("all");
+  const [sortBy, setSortBy] = useState<string>("relevance");
 
   const filteredProperties = savedProperties.filter((p) => filterType === "all" || p.type === filterType);
+  
+  let sortedProperties = [...filteredProperties];
+  switch (sortBy) {
+    case 'recent':
+      sortedProperties.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+      break;
+    case 'price-asc':
+      sortedProperties.sort((a, b) => a.price - b.price);
+      break;
+    case 'price-desc':
+      sortedProperties.sort((a, b) => b.price - a.price);
+      break;
+    case 'area-desc':
+      sortedProperties.sort((a, b) => (b.area || 0) - (a.area || 0));
+      break;
+    case 'relevance':
+    default:
+      sortedProperties.sort((a, b) => b.rating - a.rating);
+      break;
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 w-full pb-28 md:pb-12 border-box">
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
         <h1 className="text-3xl font-light tracking-tighter text-[#1A1A1A]">Favoritos</h1>
         
-        <div className="flex space-x-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
-          <button 
-            onClick={() => setFilterType("all")}
-            className={`px-4 py-2 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-colors whitespace-nowrap border border-black/5 ${
-              filterType === "all" ? "bg-[#2A3B31] text-white" : "bg-white text-[#1A1A1A] hover:bg-[#F8F7F4]"
-            }`}
-          >
-            Todos
-          </button>
-          <button 
-            onClick={() => setFilterType("short-term")}
-            className={`px-4 py-2 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-colors whitespace-nowrap border border-black/5 ${
-              filterType === "short-term" ? "bg-[#2A3B31] text-white" : "bg-white text-[#1A1A1A] hover:bg-[#F8F7F4]"
-            }`}
-          >
-            Temporada
-          </button>
-          <button 
-            onClick={() => setFilterType("long-term")}
-            className={`px-4 py-2 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-colors whitespace-nowrap border border-black/5 ${
-              filterType === "long-term" ? "bg-[#2A3B31] text-white" : "bg-white text-[#1A1A1A] hover:bg-[#F8F7F4]"
-            }`}
-          >
-            Longo Prazo
-          </button>
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex space-x-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
+            <button 
+              onClick={() => setFilterType("all")}
+              className={`px-4 py-2 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-colors whitespace-nowrap border border-black/5 ${
+                filterType === "all" ? "bg-[#2A3B31] text-white" : "bg-white text-[#1A1A1A] hover:bg-[#F8F7F4]"
+              }`}
+            >
+              Todos
+            </button>
+            <button 
+              onClick={() => setFilterType("short-term")}
+              className={`px-4 py-2 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-colors whitespace-nowrap border border-black/5 ${
+                filterType === "short-term" ? "bg-[#2A3B31] text-white" : "bg-white text-[#1A1A1A] hover:bg-[#F8F7F4]"
+              }`}
+            >
+              Temporada
+            </button>
+            <button 
+              onClick={() => setFilterType("long-term")}
+              className={`px-4 py-2 rounded-2xl text-[10px] font-bold uppercase tracking-widest transition-colors whitespace-nowrap border border-black/5 ${
+                filterType === "long-term" ? "bg-[#2A3B31] text-white" : "bg-white text-[#1A1A1A] hover:bg-[#F8F7F4]"
+              }`}
+            >
+              Longo Prazo
+            </button>
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold uppercase tracking-widest opacity-40 hidden md:block">Ordenar por:</span>
+            <select 
+              value={sortBy} 
+              onChange={(e) => setSortBy(e.target.value)}
+              className="w-full md:w-auto appearance-none bg-white text-[#1A1A1A] text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-2xl border border-black/5 outline-none cursor-pointer hover:bg-[#F8F7F4] pr-8 relative"
+              style={{ backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1em' }}
+            >
+              <option value="relevance">Mais Relevantes</option>
+              <option value="recent">Mais Recentes</option>
+              <option value="price-asc">Menor Preço</option>
+              <option value="price-desc">Maior Preço</option>
+              <option value="area-desc">Maior Área</option>
+            </select>
+          </div>
         </div>
       </div>
       
@@ -80,7 +125,7 @@ export function GuestSaved() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProperties.map((property) => (
+          {sortedProperties.map((property) => (
             <Link key={property.id} to={`/guest/property/${property.id}`} className="group cursor-pointer">
                 <div className="relative aspect-[4/3] mb-3 overflow-hidden rounded-3xl border border-black/5 bg-slate-200">
                 <img 
