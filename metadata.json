@@ -1,0 +1,8 @@
+{
+  "name": "AlugaFacil MVP",
+  "description": "A comprehensive house-rental platform MVP with mobile-first web UI, backend architecture docs, and host dashboard features.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

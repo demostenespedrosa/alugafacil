@@ -1,0 +1,22 @@
+export interface Property {
+  id: string;
+  title: string;
+  location: string;
+  price: number;
+  currency: string;
+  rating: number;
+  reviews: number;
+  bedrooms: number;
+  type: "short-term" | "long-term";
+  imageUrl: string;
+  amenities: string[];
+}
+
+export interface Booking {
+  id: string;
+  propertyId: string;
+  status: "pending_payment" | "confirmed" | "cancelled" | "completed";
+  checkIn: string;
+  checkOut: string;
+  totalPrice: number;
+}
