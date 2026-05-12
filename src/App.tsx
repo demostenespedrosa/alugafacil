@@ -1,12 +1,24 @@
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { GuestLayout } from "./components/layout/GuestLayout";
 import { HostLayout } from "./components/layout/HostLayout";
-import { Home } from "./pages/Home";
-import { PropertyDetail } from "./pages/PropertyDetail";
-import { HostDashboard } from "./pages/HostDashboard";
-import { GuestSaved } from "./pages/GuestSaved";
-import { GuestMessages } from "./pages/GuestMessages";
-import { GuestProfile } from "./pages/GuestProfile";
+
+const Home = lazy(() => import("./pages/Home").then(m => ({ default: m.Home })));
+const PropertyDetail = lazy(() => import("./pages/PropertyDetail").then(m => ({ default: m.PropertyDetail })));
+const HostDashboard = lazy(() => import("./pages/HostDashboard").then(m => ({ default: m.HostDashboard })));
+const GuestSaved = lazy(() => import("./pages/GuestSaved").then(m => ({ default: m.GuestSaved })));
+const GuestMessages = lazy(() => import("./pages/GuestMessages").then(m => ({ default: m.GuestMessages })));
+const GuestProfile = lazy(() => import("./pages/GuestProfile").then(m => ({ default: m.GuestProfile })));
+
+function PageLoader() {
+  return (
+    <div className="flex-1 flex flex-col items-center justify-center w-full min-h-[50vh]">
+      <div className="w-8 h-8 flex items-center justify-center">
+         <div className="w-full h-full border-2 border-[#2A3B31]/20 border-t-[#2A3B31] rounded-full animate-spin"></div>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   return (
@@ -16,16 +28,16 @@ export default function App() {
         
         {/* Sistema do Inquilino (Guest) */}
         <Route path="/guest" element={<GuestLayout />}>
-          <Route index element={<Home />} />
-          <Route path="property/:id" element={<PropertyDetail />} />
-          <Route path="saved" element={<GuestSaved />} />
-          <Route path="messages" element={<GuestMessages />} />
-          <Route path="profile" element={<GuestProfile />} />
+          <Route index element={<Suspense fallback={<PageLoader />}><Home /></Suspense>} />
+          <Route path="property/:id" element={<Suspense fallback={<PageLoader />}><PropertyDetail /></Suspense>} />
+          <Route path="saved" element={<Suspense fallback={<PageLoader />}><GuestSaved /></Suspense>} />
+          <Route path="messages" element={<Suspense fallback={<PageLoader />}><GuestMessages /></Suspense>} />
+          <Route path="profile" element={<Suspense fallback={<PageLoader />}><GuestProfile /></Suspense>} />
         </Route>
 
         {/* Sistema do Proprietário (Host) */}
         <Route path="/host" element={<HostLayout />}>
-          <Route index element={<HostDashboard />} />
+          <Route index element={<Suspense fallback={<PageLoader />}><HostDashboard /></Suspense>} />
           <Route path="reservas" element={<div className="p-10 flex-1 flex flex-col items-center justify-center text-xs font-bold uppercase tracking-widest opacity-60">Gestão de Reservas (Fase 2)</div>} />
           <Route path="manutencao" element={<div className="p-10 flex-1 flex flex-col items-center justify-center text-xs font-bold uppercase tracking-widest opacity-60">Ordens de Manutenção (Fase 3)</div>} />
           <Route path="profile" element={<div className="p-10 flex-1 flex flex-col items-center justify-center text-xs font-bold uppercase tracking-widest opacity-60">Configurações do Anfitrião</div>} />

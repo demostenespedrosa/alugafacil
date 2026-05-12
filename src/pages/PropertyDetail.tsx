@@ -72,8 +72,8 @@ export function PropertyDetail() {
       </div>
 
       {/* Gallery */}
-      <div className="w-full relative aspect-[4/3] md:aspect-[21/9] md:rounded-[40px] overflow-hidden border border-black/5 flex bg-white">
-        <img src={property.imageUrl} alt={property.title} className="w-full h-full object-cover" />
+      <div className="w-full relative aspect-[4/3] md:aspect-[21/9] md:rounded-[40px] overflow-hidden border border-black/5 flex bg-slate-200">
+        <img src={property.imageUrl} alt={property.title} fetchPriority="high" className="w-full h-full object-cover" />
       </div>
 
       <div className="px-4 sm:px-6 md:px-0 mt-6 md:mt-0">

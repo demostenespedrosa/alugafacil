@@ -46,16 +46,29 @@ export function Home() {
 
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {[1,2,3,4].map(i => <div key={i} className="animate-pulse bg-gray-200 aspect-[4/3] rounded-2xl"></div>)}
+          {[1,2,3,4].map(i => (
+            <div key={i} className="animate-pulse">
+              <div className="bg-[#1A1A1A]/5 aspect-[4/3] rounded-3xl mb-3"></div>
+              <div className="flex justify-between items-start">
+                 <div className="w-2/3">
+                    <div className="h-4 bg-[#1A1A1A]/5 rounded w-full mb-2"></div>
+                    <div className="h-3 bg-[#1A1A1A]/5 rounded w-1/2"></div>
+                 </div>
+                 <div className="h-4 bg-[#1A1A1A]/5 rounded w-8"></div>
+              </div>
+              <div className="h-5 bg-[#1A1A1A]/5 rounded w-24 mt-3"></div>
+            </div>
+          ))}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProperties.map((property) => (
             <Link key={property.id} to={`/guest/property/${property.id}`} className="group cursor-pointer">
-              <div className="relative aspect-[4/3] mb-3 overflow-hidden rounded-3xl border border-black/5">
+              <div className="relative aspect-[4/3] mb-3 overflow-hidden rounded-3xl border border-black/5 bg-slate-200">
                 <img 
                   src={property.imageUrl} 
                   alt={property.title} 
+                  loading="lazy"
                   className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
                 />
                 <button className="absolute top-3 right-3 p-1.5 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition">

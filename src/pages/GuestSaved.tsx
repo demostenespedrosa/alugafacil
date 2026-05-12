@@ -30,10 +30,11 @@ export function GuestSaved() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {savedProperties.map((property) => (
           <Link key={property.id} to={`/guest/property/${property.id}`} className="group cursor-pointer">
-            <div className="relative aspect-[4/3] mb-3 overflow-hidden rounded-3xl border border-black/5">
+              <div className="relative aspect-[4/3] mb-3 overflow-hidden rounded-3xl border border-black/5 bg-slate-200">
               <img 
                 src={property.imageUrl} 
                 alt={property.title} 
+                loading="lazy"
                 className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
               />
               <button className="absolute top-3 right-3 p-3 bg-white/20 backdrop-blur-md rounded-full text-[#E58E58] hover:bg-white/40 transition">
